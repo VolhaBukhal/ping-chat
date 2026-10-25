@@ -1,4 +1,4 @@
-import { type FormEvent, useCallback, useMemo, useState } from 'react'
+import { type FormEvent, useCallback, useMemo, useRef, useState } from 'react'
 import { GreenApiError, sendMessage } from '../../api/greenApi'
 import { useReceiveNotifications } from '../../hooks/useReceiveNotifications'
 import { displayChatLabel } from '../../lib/chatId'
@@ -22,26 +22,42 @@ export function ChatScreen({ credentials, onLogout }: Props) {
   const [sending, setSending] = useState(false)
   const [opening, setOpening] = useState(false)
   const [mobileShowChat, setMobileShowChat] = useState(false)
+  const activeChatIdRef = useRef(activeChatId)
+  activeChatIdRef.current = activeChatId
 
   const chatMessages = useMemo(
-    () => (activeChatId ? messages : []),
+    () =>
+      activeChatId
+        ? messages.filter((message) => message.chatId === activeChatId)
+        : [],
     [messages, activeChatId],
   )
 
   const handleIncoming = useCallback((message: ChatMessage) => {
+    const current = activeChatIdRef.current
+    const adoptNumeric = Boolean(
+      current?.endsWith('@c.us') && current !== message.chatId,
+    )
+
     setMessages((prev) => {
-      if (prev.some((m) => m.id === message.id)) return prev
-      return [...prev, message]
+      const base =
+        adoptNumeric && current
+          ? prev.map((item) =>
+              item.chatId === current
+                ? { ...item, chatId: message.chatId }
+                : item,
+            )
+          : prev
+      if (base.some((item) => item.id === message.id)) return base
+      return [...base, message]
     })
+    if (adoptNumeric) setActiveChatId(message.chatId)
     setPollError(null)
-    setActiveChatId((current) => {
-      if (!current || current.endsWith('@c.us')) return message.chatId
-      return current
-    })
   }, [])
 
   useReceiveNotifications({
     credentials,
+    activeChatId,
     enabled: true,
     onIncoming: handleIncoming,
     onPollError: (error) => setPollError(error),
