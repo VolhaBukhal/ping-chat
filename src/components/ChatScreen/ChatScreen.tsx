@@ -131,7 +131,12 @@ export function ChatScreen({ credentials, onLogout }: Props) {
       <aside className={styles.sidebar}>
         <div className={styles.sideHeader}>
           <div className={styles.brand}>ping-chat</div>
-          <button type="button" className={styles.logout} onClick={onLogout}>
+          <button
+            type="button"
+            className={styles.logout}
+            data-test-id="logout"
+            onClick={onLogout}
+          >
             Выйти
           </button>
         </div>
@@ -149,6 +154,7 @@ export function ChatScreen({ credentials, onLogout }: Props) {
             <button
               className={styles.startBtn}
               type="submit"
+              data-test-id="open-chat"
               disabled={!recipientInput.trim() || opening}
             >
               {opening ? 'Ищем…' : 'Открыть чат'}
@@ -170,6 +176,7 @@ export function ChatScreen({ credentials, onLogout }: Props) {
               <button
                 type="button"
                 className={`${styles.chatItem} ${styles.chatItemActive}`}
+                data-test-id="chat-item"
                 onClick={() => setMobileShowChat(true)}
               >
                 <span className={styles.chatItemTitle}>

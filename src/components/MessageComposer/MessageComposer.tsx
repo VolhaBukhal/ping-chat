@@ -46,6 +46,7 @@ export function MessageComposer({ disabled, sending, onSend }: Props) {
       <button
         className={styles.send}
         type="submit"
+        data-test-id="send-message"
         disabled={!canSend}
         aria-label="Отправить"
       >

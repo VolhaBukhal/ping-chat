@@ -19,6 +19,8 @@ yarn dev
 
 Сборка: `yarn build`. Превью собранной версии с тем же proxy: `yarn preview` (тот же адрес).
 
+Проверка интерфейса без реального Telegram: `yarn test:e2e`. Окно Playwright c ui отображением: `yarn test:e2e:open`.
+
 ## Подготовка Telegram-инстанса
 
 1. Зарегистрируйтесь в [кабинете GREEN-API](https://console.green-api.com/).

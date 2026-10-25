@@ -123,7 +123,12 @@ export function LoginForm({ onSuccess }: Props) {
             </div>
           ) : null}
 
-          <button className={styles.submit} type="submit" disabled={loading}>
+          <button
+            className={styles.submit}
+            type="submit"
+            data-test-id="login-submit"
+            disabled={loading}
+          >
             {loading ? "Проверяем…" : "Войти"}
           </button>
         </form>
