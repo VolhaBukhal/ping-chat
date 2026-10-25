@@ -23,6 +23,12 @@ export async function resolveRecipientChatId(
     )
   }
 
+  // Group chatId. A leading minus must win over the phone heuristic,
+  // because "-" is also a phone separator.
+  if (/^-\d{5,20}$/.test(trimmed)) {
+    return trimmed
+  }
+
   // Explicit phone@c.us or formatted phone (+7 999 …)
   const digits = trimmed.replace(/\D/g, '')
   const isPhoneSuffix = trimmed.endsWith('@c.us')
@@ -30,11 +36,6 @@ export async function resolveRecipientChatId(
 
   if (isPhoneSuffix || isFormattedPhone) {
     return resolvePhone(credentials, digits)
-  }
-
-  // Group chatId
-  if (/^-\d{5,20}$/.test(trimmed)) {
-    return trimmed
   }
 
   // Bare digits: 10–15 → prefer phone CheckAccount; shorter → chatId

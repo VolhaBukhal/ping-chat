@@ -19,7 +19,7 @@ async function openRecipient(page: Page, recipient: string) {
 }
 
 test.describe("login", () => {
-  test("logs in and keeps the session after reload", async ({ page }) => {
+  test("should log in and keep the session after reload", async ({ page }) => {
     await login(page);
     await expect(page.getByText("Выберите собеседника")).toBeVisible();
 
@@ -33,7 +33,7 @@ test.describe("login", () => {
     await expect(page.getByTestId("logout")).toBeVisible();
   });
 
-  test("rejects empty fields, bad credentials, and an unauthorized instance", async ({
+  test("should reject empty fields, bad credentials, and an unauthorized instance", async ({
     page,
   }) => {
     const mock = new GreenApiMock();
@@ -73,7 +73,7 @@ test.describe("login", () => {
 });
 
 test.describe("opening a chat", () => {
-  test("opens a personal chat by phone, username, or numeric chatId", async ({
+  test("should open a personal chat by phone, username, or numeric chatId", async ({
     page,
   }) => {
     const mock = await login(page);
@@ -92,7 +92,7 @@ test.describe("opening a chat", () => {
     await expect(page.getByTestId("chat-item")).toContainText("10000000");
   });
 
-  test("shows an error for an unknown phone and a bad recipient", async ({
+  test("should show an error for an unknown phone and a bad recipient", async ({
     page,
   }) => {
     const mock = await login(page);
@@ -117,7 +117,7 @@ test.describe("opening a chat", () => {
 });
 
 test.describe("sending", () => {
-  test("sends a text message and marks a failed send", async ({ page }) => {
+  test("should send a text message and mark a failed send", async ({ page }) => {
     const mock = await login(page);
     mock.checkAccount = { exist: true, chatId: "555001122" };
     await openRecipient(page, "79991234567");
@@ -147,7 +147,7 @@ test.describe("sending", () => {
 });
 
 test.describe("receiving", () => {
-  test("shows a personal reply and hides group comments and other chats", async ({
+  test("should show a personal reply and hide group comments and other chats", async ({
     page,
   }) => {
     const mock = await login(page);
@@ -188,7 +188,7 @@ test.describe("receiving", () => {
       .toEqual([1, 2, 3]);
   });
 
-  test("matches a phone chat to the numeric reply and ignores a group comment from the same phone", async ({
+  test("should match a phone chat to the numeric reply and ignore a group comment from the same phone", async ({
     page,
   }) => {
     const mock = await login(page);
@@ -226,7 +226,7 @@ test.describe("receiving", () => {
     );
   });
 
-  test("shows a receive error and logout clears the session", async ({
+  test("should show a receive error and clear the session on logout", async ({
     page,
   }) => {
     const mock = await login(page);

@@ -13,7 +13,7 @@ yarn
 yarn dev
 ```
 
-Open http://127.0.0.1:4317. Build with `yarn build`, then `yarn preview` on the same address. UI checks without a real Telegram account: `yarn test:e2e`. Playwright window to watch a run: `yarn test:e2e:open`.
+Open http://127.0.0.1:4317. Build with `yarn build`, then `yarn preview` on the same address. Utility unit tests: `yarn test:unit`. UI checks without a real Telegram account: `yarn test:e2e`. Playwright window to watch a run: `yarn test:e2e:open`.
 
 ## Telegram instance
 
