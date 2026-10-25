@@ -4,16 +4,33 @@ import { defineConfig, type Plugin } from 'vite'
 
 const DEFAULT_GREEN_API_URL = 'https://api.green-api.com'
 
+function isGreenApiOrigin(value: string): string | null {
+  try {
+    const url = new URL(value)
+    const host = url.hostname.toLowerCase()
+    const allowed =
+      url.protocol === 'https:' &&
+      (host === 'green-api.com' ||
+        host.endsWith('.green-api.com') ||
+        host === 'greenapi.com' ||
+        host.endsWith('.greenapi.com'))
+    return allowed ? url.origin : null
+  } catch {
+    return null
+  }
+}
+
 function resolveTarget(req: IncomingMessage): string {
   const header = req.headers['x-green-api-url']
-  if (typeof header === 'string' && /^https?:\/\//i.test(header)) {
-    return header.replace(/\/$/, '')
+  if (typeof header === 'string') {
+    return isGreenApiOrigin(header) ?? DEFAULT_GREEN_API_URL
   }
   return DEFAULT_GREEN_API_URL
 }
 
 /**
- * Proxy /green-api/* → GREEN-API host (from X-Green-Api-Url, else default).
+ * Proxy /green-api/* → https://*.green-api.com or https://*.greenapi.com
+ * from X-Green-Api-Url, otherwise https://api.green-api.com.
  * Avoids browser CORS for the client-only MVP.
  */
 function greenApiProxyPlugin(): Plugin {
@@ -101,7 +118,16 @@ async function forwardGreenApi(
 
   res.statusCode = upstream.status
   upstream.headers.forEach((value, key) => {
-    if (key.toLowerCase() === 'transfer-encoding') return
+    const lower = key.toLowerCase()
+    // Node already decoded the body. Forwarding these headers makes the
+    // browser fail the response and the login form show a network error.
+    if (
+      lower === 'transfer-encoding' ||
+      lower === 'content-encoding' ||
+      lower === 'content-length'
+    ) {
+      return
+    }
     res.setHeader(key, value)
   })
 
