@@ -1,0 +1,260 @@
+.shell {
+  min-height: 100%;
+  display: grid;
+  grid-template-columns: minmax(240px, 320px) 1fr;
+  background: var(--bg);
+}
+
+@media (max-width: 760px) {
+  .shell {
+    grid-template-columns: 1fr;
+  }
+
+  .shellChatOpen .sidebar {
+    display: none;
+  }
+
+  .shellList .main {
+    display: none;
+  }
+}
+
+.sidebar {
+  display: flex;
+  flex-direction: column;
+  border-right: 1px solid var(--line);
+  background: var(--panel);
+  min-height: 100dvh;
+}
+
+.sideHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  padding: 1rem 1rem 0.75rem;
+}
+
+.brand {
+  font-weight: 700;
+  font-size: 1.15rem;
+  letter-spacing: -0.03em;
+  color: var(--ink);
+}
+
+.logout {
+  border: 1px solid var(--line);
+  background: transparent;
+  color: var(--muted);
+  border-radius: 999px;
+  padding: 0.35rem 0.75rem;
+  font: inherit;
+  font-size: 0.8rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.logout:hover {
+  color: var(--ink);
+  border-color: var(--muted);
+}
+
+.sideBody {
+  padding: 0.5rem 1rem 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+}
+
+.sideLabel {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--muted);
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+}
+
+.newChat {
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
+}
+
+.input {
+  appearance: none;
+  border: 1px solid var(--line);
+  background: var(--surface);
+  color: var(--ink);
+  border-radius: 12px;
+  padding: 0.75rem 0.9rem;
+  font: inherit;
+  font-size: 0.9rem;
+}
+
+.input:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px var(--accent-soft);
+}
+
+.startBtn {
+  border: none;
+  border-radius: 12px;
+  padding: 0.75rem 0.9rem;
+  font: inherit;
+  font-weight: 600;
+  color: #fff;
+  background: var(--accent);
+  cursor: pointer;
+}
+
+.startBtn:hover:not(:disabled) {
+  background: var(--accent-hover);
+}
+
+.startBtn:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+.hint {
+  font-size: 0.75rem;
+  color: var(--muted);
+  line-height: 1.4;
+}
+
+.error {
+  border-radius: 10px;
+  padding: 0.65rem 0.8rem;
+  background: var(--danger-soft);
+  color: var(--danger);
+  font-size: 0.8rem;
+  line-height: 1.35;
+}
+
+.chatItem {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+  text-align: left;
+  border: 1px solid var(--line-soft);
+  background: var(--surface);
+  border-radius: 12px;
+  padding: 0.75rem 0.85rem;
+  cursor: pointer;
+  font: inherit;
+  color: inherit;
+  transition: border-color 0.15s ease, background 0.15s ease;
+}
+
+.chatItemActive {
+  border-color: var(--accent);
+  background: var(--accent-soft);
+}
+
+.chatItemTitle {
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+.chatItemMeta {
+  font-size: 0.75rem;
+  color: var(--muted);
+}
+
+.main {
+  display: flex;
+  flex-direction: column;
+  min-height: 100dvh;
+  min-width: 0;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.55), transparent 120px),
+    radial-gradient(ellipse 90% 40% at 50% -10%, rgba(46, 139, 154, 0.08), transparent 55%),
+    var(--chat-bg);
+}
+
+.topBar {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  padding: 0.85rem 1rem;
+  background: color-mix(in srgb, var(--panel) 88%, transparent);
+  backdrop-filter: blur(8px);
+  border-bottom: 1px solid var(--line-soft);
+}
+
+.back {
+  display: none;
+  border: none;
+  background: transparent;
+  color: var(--accent);
+  font: inherit;
+  font-weight: 600;
+  font-size: 0.875rem;
+  cursor: pointer;
+  padding: 0.25rem 0.35rem;
+}
+
+@media (max-width: 760px) {
+  .back {
+    display: inline;
+  }
+}
+
+.peer {
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
+  min-width: 0;
+}
+
+.peerName {
+  font-weight: 650;
+  font-size: 1rem;
+  letter-spacing: -0.02em;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.peerStatus {
+  font-size: 0.75rem;
+  color: var(--muted);
+}
+
+.blank {
+  margin: auto;
+  text-align: center;
+  color: var(--muted);
+  padding: 2rem;
+  max-width: 32ch;
+  animation: rise 0.4s ease both;
+}
+
+.blankTitle {
+  font-size: 1.15rem;
+  font-weight: 650;
+  color: var(--ink);
+  margin-bottom: 0.35rem;
+}
+
+.pollBanner {
+  margin: 0 1rem;
+  margin-top: 0.65rem;
+  border-radius: 10px;
+  padding: 0.55rem 0.75rem;
+  background: var(--warn-soft);
+  color: var(--warn);
+  font-size: 0.8rem;
+}
+
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
